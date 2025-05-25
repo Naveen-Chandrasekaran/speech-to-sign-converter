@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+#videoPlayer {
+  border: 6px solid #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.6);
+}
+.voice-button {
+  padding: 6px 12px;
+  font-weight: bold;
+  font-size: 20px;
+  font-family: 'Orbitron', sans-serif;
+  border-radius: 6px;
+  background-color: #7CFC00;
+  color: #283149;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 10px #283149 ;
+  transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  animation: fadeInBody 0.7s ease-in;
+}
+
+.voice-button:hover{
+ background-color: #283149;
+  color: #ffffff;
+  box-shadow: 0 0 20px #7CFC00 ;
+  transform: scale(1.03);
+}
+
+#loopBtn.active {
+  background-color: #283149;
+  color: #ffffff;
+  box-shadow: 0 0 16px #7CFC00;
+  transform: scale(1.03);
+}
+
+#playPauseBtn.active {
+  background-color: #283149;
+  color: #ffffff;
+  box-shadow: 0 0 16px #7CFC00;
+  transform: scale(1.03);
+}
+
+</style>
+
+<div class="split left" >
+	<h2 align="center">Enter Text or Use Mic</h2>
+	<br>
+	<form action="" method="post" align="left">
+		{% csrf_token %}
+		<input type="text" name="sen" class="mytext" id="speechToText" placeholder="">
+		<button type="button" name="button" class="mic" onclick="record()">
+			<img src="{% static 'mic3.png' %}" height="32px" width="38px" />
+		</button>
+		&nbsp&nbsp&nbsp&nbsp
+		<input type="submit" name="submit" class="submit" style="border-radius: 5px;">
+	</form>
+	<br>
+	<table cellspacing="20px">
+		<tr>
+			<td class="td">The text that you entered is:</td>
+			<td class="td">{{ text }}</td>
+		</tr>
+		<tr>
+			<td class="td">Key words in sentence:</td>
+			<td class="td">
+				<ul class="td" id="list" align="center">
+					{% for word in words %}
+						<li id="{{ i }}" style="margin-right: 8px">{{  word }}</li>
+					{% endfor %}
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td class="td">Speak Keywords:</td>
+			<td class="td" >
+			<div >
+				<button onclick="speakKeywords()" class="voice-button">🔊 Play Voice</button>
+				<br><br>
+				
+				<div style="display: flex; align-items: center; gap: 10px; margin-top: 12px;">
+				<label for="speechSpeed" style="color:#7CFC00;white-space: nowrap;">Voice Speed:</label>
+				<input type="range" id="speechSpeed" min="-0.5" max="2" value="1" step="0.1"
+						style="width: 180px;" onchange="updateSpeechSpeedDisplay(this.value)">
+				<span id="speechSpeedValue" style="color:#00ffff;">1.0x</span>
+				</div>
+
+
+			</div>
+			</td>
+
+		</tr>
+	</table>
+</div>
+<div class="split right" style="margin-bottom:20px">
+  <h2 align="center">Sign Language Animation</h2>
+  <div style="text-align:center;">&nbsp&nbsp
+
+	<button id="playPauseBtn" class="submit" onclick="playPause()" style="border-radius: 5px; margin-right:20px">Play</button>
+<button id="loopBtn" class="submit" onclick="toggleLoop()" style="margin-left: 10px; border-radius: 5px;">Loop</button>
+
+  	<video id="videoPlayer" width="600" height="350" style="margin-top:10px" preload="auto" autoplay>
+	  <source src="" type="video/mp4">
+	  Your browser does not support HTML5 video.
+  	</video>
+  </div>
+
+  <div style="margin-top: 16px; margin-bottom:16px; text-align:center">
+  <label for="speedControl" style="color:#7CFC00;">Animation Speed: </label>
+  <input type="range" id="speedControl" min="0.25" max="2" value="1" step="0.05" style="width: 300px;" onchange="changeSpeed(this.value)">
+  <span id="speedValue" style="color:#00ffff;">1.00x</span>
+</div>
+
+</div>
+
+<script>
+	let currentUtterance = null;
+	let currentSentence = '';
+	let isSpeaking = false; // to track play/pause
+	let isPaused = false;
+	let isLooping = false;
+
+
+	function record(){
+		var recognition = new webkitSpeechRecognition();
+		recognition.lang='en-IN';
+		recognition.onresult = function(event){
+			document.getElementById('speechToText').value = event.results[0][0].transcript;
+		}
+		recognition.start();
+	}
+
+
+let videoSource = [];
+let videoIndex = 0;
+let isPlayingSequence = false;
+let currentVideo = null;
+
+function play() {
+	const videos = document.getElementById("list").getElementsByTagName("li");
+	videoSource = [];
+
+	for (let j = 0; j < videos.length; j++) {
+		videoSource[j] = "/static/" + videos[j].innerHTML + ".mp4";
+	}
+
+	const listItems = document.getElementById("list").getElementsByTagName("li");
+	const video = document.getElementById("videoPlayer");
+
+	// Remove old listeners
+	const newVideo = video.cloneNode(true);
+	video.parentNode.replaceChild(newVideo, video);
+	currentVideo = newVideo;
+
+	newVideo.addEventListener("ended", onEnded, false);
+
+	function playVideoAt(index) {
+		// Restore previous styles
+		if (index > 0) {
+			listItems[index - 1].style.color = "#feda6a";
+			listItems[index - 1].style.fontSize = "20px";
+		}
+
+		listItems[index].style.color = "#09edc7";
+		listItems[index].style.fontSize = "xx-large";
+
+		newVideo.src = videoSource[index];
+		newVideo.playbackRate = parseFloat(document.getElementById("speedControl").value);
+
+		newVideo.play().catch(err => {
+			console.warn("Playback failed:", err.message);
+		});
+	}
+
+	function onEnded() {
+	const listItems = document.getElementById("list").getElementsByTagName("li");
+	listItems[videoIndex].style.color = "#feda6a";
+	listItems[videoIndex].style.fontSize = "20px";
+
+	videoIndex++;
+	if (videoIndex >= videoSource.length) {
+		if (isLooping) {
+			videoIndex = 0;
+		} else {
+			isPlayingSequence = false;
+			document.getElementById("playPauseBtn").innerText = "Play";
+			return;
+		}
+	}
+	playVideoAt(videoIndex);
+   }
+
+
+	// Start or resume
+	playVideoAt(videoIndex);
+	isPlayingSequence = true;
+}
+
+// 🎯 Play/pause button logic
+function playPause() {
+	const video = document.getElementById("videoPlayer");
+	const playPauseBtn = document.getElementById("playPauseBtn");
+	playPauseBtn.classList.toggle('active');
+
+	if (!isPlayingSequence) {
+		videoIndex = 0;  // Start from beginning
+		play();
+		playPauseBtn.innerText = "Pause";
+	} else if (video.paused) {
+		video.play();
+		playPauseBtn.innerText = "Pause";
+	} else {
+		video.pause();
+		playPauseBtn.innerText = "Play";
+	}
+}
+
+
+// 🎯 Update speed during playback
+function changeSpeed(speed) {
+	const video = document.getElementById("videoPlayer");
+	video.playbackRate = parseFloat(speed);
+	document.getElementById("speedValue").innerText = parseFloat(speed).toFixed(2) + 'x';
+}
+
+function toggleLoop() {
+	const loopBtn = document.getElementById("loopBtn");
+	isLooping = !isLooping;
+	loopBtn.classList.toggle('active');
+
+
+	if (isLooping) {
+		loopBtn.innerText = "Loop (On)";
+	} else {
+		loopBtn.style.backgroundColor = "";
+		loopBtn.style.color = "";
+		loopBtn.innerText = "Loop";
+	}
+}
+
+
+
+
+function speakKeywords() {
+	const wordsList = document.getElementById("list").getElementsByTagName("li");
+	currentSentence = '';
+	for (let i = 0; i < wordsList.length; i++) {
+		currentSentence += wordsList[i].innerText + ' ';
+	}
+	toggleSpeech(currentSentence.trim());
+}
+
+function toggleSpeech(sentence) {
+	const btn = document.querySelector(".voice-button");
+
+	// If speech is paused, resume
+	if (isPaused) {
+		speechSynthesis.resume();
+		isPaused = false;
+		btn.textContent = "🔊 Pause Voice";
+		return;
+	}
+
+	// If already speaking, pause
+	if (speechSynthesis.speaking) {
+		speechSynthesis.pause();
+		isPaused = true;
+		btn.textContent = "🔊 Play Voice";
+		return;
+	}
+
+	// Else start fresh
+	speechSynthesis.cancel();
+	currentUtterance = new SpeechSynthesisUtterance(sentence);
+	currentUtterance.lang = 'en-US';
+	currentUtterance.rate = parseFloat(document.getElementById("speechSpeed").value);
+	isSpeaking = true;
+	isPaused = false;
+	btn.textContent = "🔊 Pause Voice";
+
+	currentUtterance.onend = () => {
+		isSpeaking = false;
+		isPaused = false;
+		btn.textContent = "🔊 Play Voice";
+	};
+
+	speechSynthesis.speak(currentUtterance);
+}
+
+function updateSpeechSpeedDisplay(val) {
+	document.getElementById("speechSpeedValue").innerText = parseFloat(val).toFixed(1) + "x";
+
+	// Optional: Restart speech at new speed
+	if (isSpeaking && !isPaused) {
+		speechSynthesis.cancel();
+		toggleSpeech(currentSentence);
+	}
+}
+
+
+
+	
+</script>
+
+{% endblock %}

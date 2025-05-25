@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5 text-center">
+    <h2 class="mb-4">Version 1.0.0</h2>
+    <hr class="w-50 mx-auto">
+
+    <h3 class="mt-4 mb-3">Contact Us</h3>
+    <p class="lead mb-4">
+        For any queries regarding this website, contact us using the information below:
+    </p>
+
+    <div class="fs-5">
+        <p>
+            <i class="bi bi-envelope-fill me-2"></i>Email: <br>
+            <a href="mailto:kishore007026@gmail.com" style="color:skyblue;">kishore007026@gmail.com</a> <strong>( Keshore Kumar K )</strong><br>
+            <a href="mailto:naveensekar002@gmail.com" style="color:skyblue;">naveensekar002@gmail.com</a> <strong>( Naveen C )</strong><br>
+            <a href="mailto:madheeshr@gmail.com" style="color:skyblue;">madheeshr@gmail.com</a> <strong>( Madheesh R )</strong><br>
+        </p>
+
+        <p>
+            <i class="bi bi-telephone-fill me-2"></i>Phone: <strong>(+91) 9080400594</strong>
+        </p>
+    </div>
+
+    <!-- Contact Form -->
+    <form id="contactForm" class="text-start mx-auto" style="max-width: 600px;">
+    <div class="mb-3 row">
+        <label for="name" class="col-sm-3 col-form-label">Your Name</label>
+        <div class="col-sm-9">
+            <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="email" class="col-sm-3 col-form-label">Your Email</label>
+        <div class="col-sm-9">
+            <input type="email" id="email" name="email" class="form-control" placeholder="you@example.com" required>
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label for="message" class="col-sm-3 col-form-label">Message</label>
+        <div class="col-sm-9">
+            <textarea id="message" name="message" class="form-control" rows="4" placeholder="Type your message here..." required></textarea>
+        </div>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="submit">Send</button>
+    </div>
+</form>
+
+
+        <!-- Success/Error Message -->
+        <div id="formMessage" class="mt-3"></div>
+    </div>
+
+    <hr class="w-50 mx-auto mt-5">
+    <p class="text-muted mt-4">Thank you for visiting our website!</p>
+</div>
+
+<!-- Bootstrap Icons CDN (if not already included) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<!-- JS Form Handler -->
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const data = {
+        name: form.name.value,
+        email: form.email.value,
+        message: form.message.value
+    };
+
+    try {
+        // Simulate form submission success (no actual backend call)
+        console.log('Form data:', data); // For debugging purposes
+        document.getElementById('formMessage').innerHTML = `<div class="alert alert-success">Message sent successfully!</div>`;
+        form.reset();
+    } catch (err) {
+        document.getElementById('formMessage').innerHTML = `<div class="alert alert-danger">Error: Unable to send message.</div>`;
+    }
+});
+</script>
+{% endblock %}

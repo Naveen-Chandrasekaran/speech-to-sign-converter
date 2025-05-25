@@ -1,0 +1,302 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body {
+  background: linear-gradient(135deg, #000000, #0a0a23, #1c1c3c, #000000);
+  color: #cccccc;
+  font-family: 'Orbitron', sans-serif;
+  margin: 0;
+  animation: fadeInBody 0.7s ease-in-out;
+  overflow-y: auto; /* allow page to scroll */
+
+}
+
+
+@keyframes fadeInBody {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.01); }
+  100% { transform: scale(1); }
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+#nav {
+  list-style-type: none;
+  margin-top: 0;
+  padding: 0;
+  overflow: hidden;
+  background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.8);
+  animation: fadeInBody 0.7s ease-in;
+}
+
+h2 {
+  color: #00ffff;
+  animation: pulse 2s infinite;
+
+}
+
+button{
+  border-radius: 5px;
+}
+
+.li {
+  float: left;
+}
+
+.li a {
+  display: block;
+  color: #cccccc;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  animation: fadeInBody 0.7s ease-in;
+}
+
+li a:hover {
+  background: #112d4e;
+  color: #00ffff;
+  transform: scale(1.05);
+}
+
+.form-style button {
+  width: 89%;
+  height: 70%;
+  padding: 5%;
+  background: #1a1a2e;
+  border: none;
+  color: #7CFC00;
+  font-weight: bold;
+  font-size: 28px;
+  font-family: 'Orbitron', sans-serif;
+  box-shadow: 0 0 10px #7CFC00;
+  transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  animation: fadeInBody 0.7s ease-in;
+}
+
+.form-style button:hover {
+  background-color: #283149;
+  color: #ffffff;
+  box-shadow: 0 0 20px #7CFC00;
+  transform: scale(1.03);
+}
+
+{% comment %} .split {
+  height: calc(100vh - 120px);
+  width: 50%;
+  position:absolute;
+  padding-top: 20px;
+  z-index: 1;
+  top: 50;
+  overflow-x: hidden;
+  padding-bottom: 20px;
+} {% endcomment %}
+
+.left {
+  width: 50%;
+  float: left;
+  padding: 20px;
+  box-sizing: border-box;
+  border-right: 1px solid #394867;
+}
+
+
+.right {
+  width: 50%;
+  position: fixed;
+  right: 0;
+  top: 150px;        /* leave space for header/nav */
+  bottom: 0;         /* stick to bottom of viewport */
+  overflow-y: hidden;
+  padding: 20px;
+  {% comment %} box-sizing: border-box;
+  border-left: 1px solid #394867; {% endcomment %}
+}
+
+
+
+.mytext {
+  border: 1px solid #5f5f79;
+  border-right: none;
+  padding: 4px;
+  margin: 0px;
+  float: left;
+  height: 32px;
+  overflow: hidden;
+  line-height: 16px;
+  width: 300px;
+  margin-left: 54px;
+  color: #cccccc;
+  background-color: #222831;
+  transition: box-shadow 0.25s ease;
+}
+
+.mytext:focus {
+  box-shadow: 0 0 8px #00ffff;
+}
+
+.mic {
+  border: 1px solid #5f5f79;
+  background: #00ffff;
+  color: #000000;
+  vertical-align: top;
+  padding: 0px;
+  margin: 0;
+  float: left;
+  height: 42px;
+  overflow: hidden;
+  width: 5em;
+  text-align: center;
+  line-height: 16px;
+  transition: transform 0.25s ease;
+}
+
+.mic:hover {
+  transform: scale(1.1);
+}
+
+.submit {
+  border: 1px solid #5f5f79;
+  height: 42px;
+  width: 160px;
+  text-align: center;
+  background-color: #00ffff;
+  color: #000000;
+  font-weight: bold;
+  font-size: 24px;
+  font-family: 'Orbitron', sans-serif;
+  vertical-align: top;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  animation: fadeInBody 0.7s ease-in;
+}
+
+.submit:hover {
+  background-color: #1a1a2e;
+  color: #7CFC00;
+  transform: scale(1.05);
+}
+
+.td {
+  color: #00ffff;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.form-style {
+  font: 95% 'Orbitron', sans-serif;
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 16px;
+  animation: fadeInBody 0.7s ease-in;
+}
+
+.form-style h1, .form-style a {
+  padding: 20px 0;
+  font-size: 24px;
+  font-weight: bold;
+  font-family: 'Orbitron', sans-serif;
+  text-align: center;
+  margin: -16px -16px 16px -16px;
+  color: #00ffff;
+}
+
+.form-style input,
+.form-style textarea,
+.form-style select {
+  transition: all 0.25s ease-in-out;
+  width: 100%;
+  background: #1f1f2f;
+  margin-bottom: 4%;
+  border: 1px solid #5f5f79;
+  padding: 3%;
+  color: #cccccc;
+  font: 95% 'Orbitron', sans-serif;
+  border-radius: 6px;
+}
+
+.form-style input:focus,
+.form-style textarea:focus,
+.form-style select:focus {
+  box-shadow: 0 0 8px #7CFC00;
+  border: 1px solid #7CFC00;
+}
+
+.site-form span, label {
+  color: #7CFC00;
+}
+
+.errorlist {
+  color: #ff4c4c;
+  font-weight: bold;
+}
+
+.video-frame {
+  border: 3px solid #7CFC00;
+  border-radius: 12px;
+  padding: 8px;
+  max-width: 90%;
+  margin: 20px auto;
+  box-shadow: 0 0 20px rgba(124,252,0,0.4);
+  animation: fadeInBody 0.7s ease-in-out;
+}
+
+html, body {
+  height: auto;
+}
+.wrapper {
+  padding: 20px;
+}
+
+
+</style>
+<title>Sign Interpreter</title>
+
+</head>
+
+<div style="background-color:#000000;color:#00ffff;padding:10px 10px 1px 10px;border: 1px #00ffff groove;margin-bottom:0; animation: fadeInBody 0.7s ease-in;">
+  <h1 align="center">Real-Time Speech-to-Sign Language Interpreter</h1>
+</div>
+
+<br>
+
+<body>
+  <ul id="nav">
+    <li class="li"><a class="active" href="{% url 'home' %}">Home</a></li>
+    <li class="li"><a href="{% url 'animation' %}">Convertor</a></li>
+    <li class="li"><a href="{% url 'start_translate' %}">Skeleton Animation</a></li>
+    {% if not user.is_authenticated %}
+    <li class="li"><a href="{% url 'signup' %}">Sign Up</a></li>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <li class="li"><a href="{% url 'logout' %}">Log-Out</a></li>
+    {% else %}
+    <li class="li"><a href="{% url 'login' %}">Log-in</a></li>
+    {% endif %}
+    <li class="li"><a href="{% url 'contact' %}">Contact</a></li>
+    <li class="li"><a href="{% url 'about' %}">About</a></li>
+  </ul>
+  
+
+<div class="wrapper">
+  {% block content %}
+  {% endblock %}
+</div>
+
+</body>
+</html>

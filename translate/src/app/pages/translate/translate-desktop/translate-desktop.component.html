@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="goBack()">
+        <img src="../assets/icons/icons8-back-96.png" style="width: 30px; height: 30px;" alt="Back" />
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="center-title" style="display: flex; align-items: center; justify-content: center; gap: 10px;;">
+      <img src="../assets/icons/app-logo.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 5px;" alt="App Icon" />
+      <span style="font-size: 1rem; font-weight: bold; vertical-align: bottom; ">SPEECH TO SIGN LANGUAGE INTERPRETER</span>
+    </ion-title>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="container">
+    <div id="input-mode-group">
+      <!-- Only Spoken to Sign -->
+      <app-translate-input-button mode="text" icon="language" />
+
+      <ion-title class="center-title" style="display: flex; align-items: center; justify-content: center; gap: 10px;;">
+        <img src="../assets/icons/skeleton-icon.png" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 5px;" alt="App Icon" />
+        <span style="font-size: 1rem; font-weight: bold; vertical-align: bottom; color: rgb(140, 65, 198); ">SKELETON ANIMATION</span>
+      </ion-title>
+    </div>
+
+    <app-drop-pose-file>
+      <div id="translation-card">
+        <app-language-selectors />
+
+        <div id="content">
+          <!-- Only Spoken to Sign component -->
+          <app-spoken-to-signed />
+        </div>
+      </div>
+    </app-drop-pose-file>
+
+    <!-- <app-send-feedback /> -->
+  </div>
+</ion-content>
