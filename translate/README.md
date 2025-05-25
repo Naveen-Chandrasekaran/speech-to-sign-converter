@@ -39,23 +39,6 @@
 └───────────────────────────┘                               └─────────────────────┘
 ```
 
-### Want to Help?
-
-Join us on the journey to revolutionize sign language communication.
-Follow our progress on the [Project Board][project-board],
-shape the project's future,
-and delve deeper into our vision and plans in the [Wiki][wiki].
-
-Wish to report a bug, contribute some code, or enhance documentation? Fantastic!
-Check our guidelines for [contributing][contributing] and then explore our issues marked as <kbd>[help wanted](https://github.com/sign/translate/labels/help%20wanted)</kbd> or <kbd>[good first issue](https://github.com/sign/translate/labels/good%20first%20issue)</kbd>.
-
-**Find this useful? Give our repo a star :star: :arrow_up:.**
-
-[![Stargazers repo roster for @sign/translate](https://reporoster.com/stars/sign/translate)](https://github.com/sign/translate/stargazers)
-
-[wiki]: https://github.com/sign/translate/wiki/Spoken-to-Signed
-[contributing]: https://github.com/sign/.github/blob/main/CONTRIBUTING.md
-[project-board]: https://github.com/sign/translate/projects/1
 
 ## Development
 
