@@ -77,13 +77,4 @@ npx cap run ios
 [node.js]: https://nodejs.org/
 [npm]: https://www.npmjs.com/get-npm
 
-### Cite
 
-```bibtex
-@misc{moryossef2023signmt,
-    title={sign.mt: Effortless Real-Time Sign Language Translation},
-    author={Moryossef, Amit},
-    howpublished={\url{https://sign.mt/}},
-    year={2023}
-}
-```
