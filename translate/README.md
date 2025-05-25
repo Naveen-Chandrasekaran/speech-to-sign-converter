@@ -5,7 +5,7 @@
 
 ## Key Features
 
-### [Sign Language Production](https://github.com/sign/translate/wiki/Spoken-to-Signed)
+###Speech to Sign Language 
 
 ```
 ┌─────────────────────┐
@@ -23,21 +23,7 @@
 └───────────────────────┘
 ```
 
-### [Sign Language Translation](https://github.com/sign/translate/wiki/Signed-to-Spoken)
 
-```
-┌──────────────────────────┐                                ┌────────────────────┐
-│Upload Sign Language Video│                      ┌────────►│Spoken Language Text│
-└──────────┬───────────────┘                      │         └──────────┬─────────┘
-           │                                      │                    │
-           │          ┌────────────┐       ┌──────┴────┐               │
-           ├─────────►│Segmentation├──────►│SignWriting│               │
-           │          └────────────┘       └───────────┘               │
-           │                                                           ▼
-┌──────────┴────────────────┐                               ┌─────────────────────┐
-│Camera Sign Language Video │                               │Spoken Language Audio│
-└───────────────────────────┘                               └─────────────────────┘
-```
 
 
 ## Development
